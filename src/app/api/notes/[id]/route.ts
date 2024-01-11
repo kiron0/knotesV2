@@ -11,31 +11,29 @@ export async function GET(req: NextRequest, res: NextResponse) {
           const id = params.pathname.split('/').pop();
 
           if (id && id.length !== 24) {
-                    return SendResponse(res, {
+                    return SendResponse({
                               statusCode: httpStatus.BAD_REQUEST,
                               success: false,
                               message: "Invalid note id",
-                    }, httpStatus.BAD_REQUEST);
+                    });
           }
 
           const note = await Note.findById(id);
 
           if (!note) {
-                    return SendResponse(res, {
+                    return SendResponse({
                               statusCode: httpStatus.NOT_FOUND,
                               success: false,
                               message: "Note not found",
-                    }, httpStatus.NOT_FOUND);
+                    });
           }
 
-          return SendResponse(res, {
+          return SendResponse({
                     statusCode: httpStatus.OK,
                     success: true,
                     message: "Note fetched successfully",
-                    data: {
-                              note,
-                    },
-          }, httpStatus.OK);
+                    data: note,
+          });
 }
 
 export async function PATCH(req: NextRequest, res: NextResponse) {
@@ -47,11 +45,11 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
           const { title, description } = await req.json();
 
           if (!title || !description) {
-                    return SendResponse(res, {
+                    return SendResponse({
                               statusCode: httpStatus.BAD_REQUEST,
                               success: false,
                               message: "Title and description are required",
-                    }, httpStatus.BAD_REQUEST);
+                    });
           }
 
           const wordsCount = description.split(" ").length;
@@ -60,11 +58,11 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
           const existingNote = await Note.findById(id);
 
           if (!existingNote) {
-                    return SendResponse(res, {
+                    return SendResponse({
                               statusCode: httpStatus.NOT_FOUND,
                               success: false,
                               message: "Note not found",
-                    }, httpStatus.NOT_FOUND);
+                    });
           }
 
           await Note.updateOne({ _id: existingNote._id, }, {
@@ -75,11 +73,11 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
           });
 
           try {
-                    return SendResponse(res, {
+                    return SendResponse({
                               statusCode: httpStatus.OK,
                               success: true,
                               message: "Note updated successfully",
-                    }, httpStatus.OK);
+                    });
           } catch (error) {
                     return NextResponse.json(error);
           }
@@ -94,18 +92,18 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
           const existingNote = await Note.findById(id);
 
           if (!existingNote) {
-                    return SendResponse(res, {
+                    return SendResponse({
                               statusCode: httpStatus.NOT_FOUND,
                               success: false,
                               message: "Note not found",
-                    }, httpStatus.NOT_FOUND);
+                    });
           }
 
           await Note.deleteOne({ _id: existingNote._id });
 
-          return SendResponse(res, {
+          return SendResponse({
                     statusCode: httpStatus.OK,
                     success: true,
                     message: "Note deleted successfully",
-          }, httpStatus.OK);
+          });
 }

@@ -14,7 +14,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
           const notes = await Note.find({}).skip(skip).limit(limit);
 
-          return SendResponse(res, {
+          return SendResponse({
                     statusCode: httpStatus.OK,
                     success: true,
                     message: "Notes fetched successfully",
@@ -26,7 +26,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
                               },
                               notes,
                     },
-          }, httpStatus.OK);
+          });
 }
 
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -35,23 +35,25 @@ export async function POST(req: NextRequest, res: NextResponse) {
           const { title, description } = await req.json();
 
           if (!title || !description) {
-                    return SendResponse(res, {
+                    return SendResponse({
                               statusCode: httpStatus.BAD_REQUEST,
                               success: false,
                               message: "Title and description are required",
-                    }, httpStatus.BAD_REQUEST);
+                    });
           }
 
           try {
                     const existingNote = await Note.findOne({ title, description });
 
                     if (existingNote) {
-                              return SendResponse(res, {
+                              return SendResponse({
+                                        statusCode: httpStatus.OK,
+                                        success: true,
                                         message: "Note updated successfully",
                                         data: {
                                                   id: existingNote._id,
                                         },
-                              }, httpStatus.OK);
+                              });
                     } else {
                               const wordsCount = description.split(" ").length;
                               const charactersCount = description.length;
@@ -64,12 +66,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
                               });
 
 
-                              return SendResponse(res, {
+                              return SendResponse({
+                                        statusCode: httpStatus.CREATED,
+                                        success: true,
                                         message: "Note created successfully",
                                         data: {
                                                   id: note._id,
                                         },
-                              }, httpStatus.CREATED);
+                              });
                     }
           } catch (error) {
                     return NextResponse.json(error);
