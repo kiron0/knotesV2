@@ -1,11 +1,10 @@
 "use client"
 
-import { TNote } from "@/server/interfaces/note.interface";
 import { toast } from "react-hot-toast";
 import { FiClipboard } from "react-icons/fi";
 
 
-export default function CopyNote(noteProps: TNote) {
+export default function CopyNote(noteProps: any) {
   const { note } = noteProps;
 
   const handleCopyNote = () => {

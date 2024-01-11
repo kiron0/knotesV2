@@ -41,7 +41,7 @@ export default function Notes() {
                     }
                     const updatedNote = { title: '', description: '' };
                     setNote(updatedNote);
-                    typeof window !== "undefined" && window.localStorage.removeItem('kNotes', JSON.stringify(note));
+                    typeof window !== "undefined" && window.localStorage.removeItem('kNotes');
           }
 
           const handleDownloadNote = () => {
@@ -91,7 +91,7 @@ export default function Notes() {
                                                   description: '',
                                         });
 
-                                        typeof window !== "undefined" && window.localStorage.removeItem('kNotes', JSON.stringify(note));
+                                        typeof window !== "undefined" && window.localStorage.removeItem('kNotes');
                               }
                     })
           }

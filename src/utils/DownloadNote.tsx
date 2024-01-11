@@ -1,11 +1,10 @@
 "use client"
 
-import { TNote } from "@/server/interfaces/note.interface";
 import { toast } from "react-hot-toast";
 import { FiDownload } from "react-icons/fi";
 
 
-export default function DownloadNote(noteProps: TNote) {
+export default function DownloadNote(noteProps: any) {
           const { note } = noteProps;
 
           const handleNoteDownload = () => {

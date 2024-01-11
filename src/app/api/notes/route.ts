@@ -14,7 +14,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
           const notes = await Note.find({}).skip(skip).limit(limit);
 
-          return SendResponse(NextResponse, {
+          return SendResponse(res, {
                     statusCode: httpStatus.OK,
                     success: true,
                     message: "Notes fetched successfully",
@@ -29,13 +29,13 @@ export async function GET(req: NextRequest, res: NextResponse) {
           }, httpStatus.OK);
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest, res: NextResponse) {
           await connect();
 
           const { title, description } = await req.json();
 
           if (!title || !description) {
-                    return SendResponse(NextResponse, {
+                    return SendResponse(res, {
                               statusCode: httpStatus.BAD_REQUEST,
                               success: false,
                               message: "Title and description are required",
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
                     const existingNote = await Note.findOne({ title, description });
 
                     if (existingNote) {
-                              return SendResponse(NextResponse, {
+                              return SendResponse(res, {
                                         message: "Note updated successfully",
                                         data: {
                                                   id: existingNote._id,
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
                               });
 
 
-                              return SendResponse(NextResponse, {
+                              return SendResponse(res, {
                                         message: "Note created successfully",
                                         data: {
                                                   id: note._id,

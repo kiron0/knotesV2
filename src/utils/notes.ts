@@ -10,7 +10,7 @@ async function getAllNote() {
           return data;
 }
 
-async function getNoteById(id) {
+async function getNoteById(id: string) {
           try {
                     if (!id) return null;
 
@@ -26,7 +26,10 @@ async function getNoteById(id) {
           }
 }
 
-async function createNewNote(data) {
+async function createNewNote(data: {
+          title: string,
+          description: string,
+}) {
           const result = await fetch(`${BASE_URL}/notes`, {
                     method: 'POST',
                     headers: {

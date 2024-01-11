@@ -20,7 +20,7 @@ export async function generateMetadata(
 
           const { data } = await NotesApi.getNoteById(id)
 
-          const note = data
+          const note = data;
 
           if (!note) {
                     return notFound()
