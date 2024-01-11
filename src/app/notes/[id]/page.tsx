@@ -43,6 +43,13 @@ export default async function SingleNote({ params, searchParams }: Props) {
                     <div className="lg:container px-3 mx-auto py-8">
                               <Link href='/' className="text-2xl md:text-4xl lg:text-5xl select-none font-bold mb-4 text-center flex md:justify-center items-center gap-1"><Image src={LogoImg} className='w-10 md:w-12' alt="" />KNotes</Link>
 
+                              <div className='flex justify-center items-center pt-5'>
+                                        <p className="text-xs md:text-sm glass uppercase cursor-default no-animation font-semibold bg-gradient-to-bl md:bg-gradient-to-tl from-[#cf9aff] to-[#95c0ff] text-white py-3 px-4 rounded-xl focus:outline-none focus:shadow-outline text-center">
+                                                  Thanks for using KNotes! <br />
+                                                  & <span className='font-bold'>Thanks for sharing this with your friends!</span>
+                                        </p>
+                              </div>
+
                               <div className="mb-4">
                                         <div className="name border rounded-xl relative mt-10 cursor-not-allowed">
                                                   <div className="name-title absolute -top-4 ml-3 bg-base-100 border rounded-lg p-1">

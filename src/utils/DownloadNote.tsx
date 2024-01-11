@@ -1,5 +1,6 @@
 "use client"
 
+import CustomToastMessage from "@/utils/CustomToastMessage";
 import { toast } from "react-hot-toast";
 import { FiDownload } from "react-icons/fi";
 
@@ -10,13 +11,24 @@ export default function DownloadNote(noteProps: any) {
           const handleNoteDownload = () => {
                     if (note.title || note.description) {
                               const element = document.createElement('a');
-                              const file = new Blob([`Title: ${note.title}\n\nDescription: ${note.description}`], { type: 'text/plain' });
+                              const file = new Blob([`${note.title}\n\n\n${note.description}`], { type: 'text/plain' });
                               element.href = URL.createObjectURL(file);
                               element.download = `${note.title.slice(0, 15)}.txt`;
                               document.body.appendChild(element);
                               element.click();
+                              toast.custom(() => (
+                                        <CustomToastMessage
+                                                  title="Success"
+                                                  subtitle="Note downloaded!"
+                                        />
+                              ));
                     } else {
-                              toast.error('Note is empty');
+                              toast.custom(() => (
+                                        <CustomToastMessage
+                                                  title="Warning"
+                                                  subtitle="Note is empty!"
+                                        />
+                              ));
                     }
           }
 

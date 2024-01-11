@@ -6,7 +6,7 @@ import './globals.css'
 
 const nunito = Nunito({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'KNotes - a simple note sharing app',
   description: 'A simple note sharing app, where you can share notes with others.',
 }

@@ -1,7 +1,9 @@
 'use client'
 
 import LogoImg from "@/assets/notes.png";
+import CustomToastMessage from "@/utils/CustomToastMessage";
 import { NotesApi } from "@/utils/notes";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -9,6 +11,11 @@ import toast from "react-hot-toast";
 import { FiClipboard, FiDownload, FiShare2 } from "react-icons/fi";
 import { RxReset } from "react-icons/rx";
 import Swal from "sweetalert2";
+
+const metadata: Metadata = {
+          title: 'Create Note - KNotes',
+          description: 'A simple note sharing app, where you can share notes with others.',
+}
 
 export default function Notes() {
           const kNotes = typeof window !== "undefined" ? (window.localStorage.getItem('kNotes') ? JSON.parse(window.localStorage.getItem('kNotes') as string) : {
@@ -27,16 +34,31 @@ export default function Notes() {
 
           const handleCopyNote = () => {
                     if (note.title || note.description) {
-                              navigator.clipboard.writeText(`Title: ${note.title}\n\nDescription: ${note.description}`);
-                              toast.success('Note copied to clipboard');
+                              navigator.clipboard.writeText(`${note.title}\n\n\n${note.description}`);
+                              toast.custom(() =>
+                                        <CustomToastMessage
+                                                  title="Success"
+                                                  subtitle="Note copied to clipboard"
+                                        />
+                              )
                     } else {
-                              toast.error('Note is empty');
+                              toast.custom(() =>
+                                        <CustomToastMessage
+                                                  title="Warning"
+                                                  subtitle="Note is empty"
+                                        />
+                              )
                     }
           }
 
           const handleClearNote = () => {
                     if (!note.title && !note.description) {
-                              toast.error('Nothing to clear');
+                              toast.custom(() =>
+                                        <CustomToastMessage
+                                                  title="Warning"
+                                                  subtitle="Note is empty"
+                                        />
+                              )
                               return;
                     }
                     const updatedNote = { title: '', description: '' };
@@ -47,19 +69,29 @@ export default function Notes() {
           const handleDownloadNote = () => {
                     if (note.title || note.description) {
                               const element = document.createElement('a');
-                              const file = new Blob([`Title: ${note.title}\n\nDescription: ${note.description}`], { type: 'text/plain' });
+                              const file = new Blob([`${note.title}\n\n\n${note.description}`], { type: 'text/plain;charset=utf-8' });
                               element.href = URL.createObjectURL(file);
                               element.download = `${note.title.slice(0, 15)}.txt`;
                               document.body.appendChild(element);
                               element.click();
                     } else {
-                              toast.error('Note is empty');
+                              toast.custom(() =>
+                                        <CustomToastMessage
+                                                  title="Warning"
+                                                  subtitle="Note is empty"
+                                        />
+                              )
                     }
           }
 
           const handleShareNote = () => {
                     if (!note.description) {
-                              toast.error('Note is empty');
+                              toast.custom(() =>
+                                        <CustomToastMessage
+                                                  title="Warning"
+                                                  subtitle="Note is empty"
+                                        />
+                              )
                               return;
                     }
 
@@ -81,9 +113,19 @@ export default function Notes() {
                                         const noteUrl = `${url}/${noteId}`;
 
                                         navigator.clipboard.writeText(noteUrl).then(() => {
-                                                  toast.success('Shareable link copied to clipboard');
+                                                  toast.custom(() =>
+                                                            <CustomToastMessage
+                                                                      title="Success"
+                                                                      subtitle="Shareable link copied to clipboard"
+                                                            />
+                                                  )
                                         }).catch(() => {
-                                                  toast.error('Failed to copy note to clipboard');
+                                                  toast.custom(() =>
+                                                            <CustomToastMessage
+                                                                      title="Error"
+                                                                      subtitle="Failed to copy note to clipboard"
+                                                            />
+                                                  )
                                         });
 
                                         setNote({
