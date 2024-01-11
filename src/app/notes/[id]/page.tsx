@@ -61,10 +61,10 @@ export default async function SingleNote({ params, searchParams }: Props) {
                                                   </p>
                                         </div>
                                         <div className='flex justify-end items-center gap-1 mt-2'>
-                                                  <span className='tooltip' data-tip="Copy Note">
+                                                  <span className='sm:tooltip' data-tip="Copy Note">
                                                             <CopyNote note={note} />
                                                   </span>
-                                                  <span className='tooltip' data-tip="Download Note">
+                                                  <span className='sm:tooltip' data-tip="Download Note">
                                                             <DownloadNote note={note} />
                                                   </span>
                                         </div>

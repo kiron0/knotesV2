@@ -14,7 +14,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
           const notes = await Note.find({}).skip(skip).limit(limit);
 
-          return res.json({
+          return SendResponse(NextResponse, {
                     statusCode: httpStatus.OK,
                     success: true,
                     message: "Notes fetched successfully",
@@ -26,12 +26,10 @@ export async function GET(req: NextRequest, res: NextResponse) {
                               },
                               notes,
                     },
-          }, {
-                    status: httpStatus.OK,
-          });
+          }, httpStatus.OK);
 }
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
           await connect();
 
           const { title, description } = await req.json();
@@ -48,13 +46,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
                     const existingNote = await Note.findOne({ title, description });
 
                     if (existingNote) {
-                              return res.json({
-                                        statusCode: httpStatus.CONFLICT,
-                                        success: false,
-                                        message: "Note already exists",
-                              }, {
-                                        status: httpStatus.CONFLICT,
-                              });
+                              return SendResponse(NextResponse, {
+                                        message: "Note updated successfully",
+                                        data: {
+                                                  id: existingNote._id,
+                                        },
+                              }, httpStatus.OK);
                     } else {
                               const wordsCount = description.split(" ").length;
                               const charactersCount = description.length;
@@ -67,14 +64,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
                               });
 
 
-                              return res.json({
-                                        statusCode: httpStatus.CREATED,
-                                        success: true,
+                              return SendResponse(NextResponse, {
                                         message: "Note created successfully",
-                                        data: note,
-                              }, {
-                                        status: httpStatus.CREATED,
-                              });
+                                        data: {
+                                                  id: note._id,
+                                        },
+                              }, httpStatus.CREATED);
                     }
           } catch (error) {
                     return NextResponse.json(error);

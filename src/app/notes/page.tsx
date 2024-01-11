@@ -35,6 +35,10 @@ export default function Notes() {
           }
 
           const handleClearNote = () => {
+                    if (!note.title && !note.description) {
+                              toast.error('Nothing to clear');
+                              return;
+                    }
                     const updatedNote = { title: '', description: '' };
                     setNote(updatedNote);
                     typeof window !== "undefined" && window.localStorage.removeItem('kNotes', JSON.stringify(note));
@@ -128,21 +132,21 @@ export default function Notes() {
                                                   />
                                         </div>
                                         <div className='flex justify-end items-center gap-1 mt-2'>
-                                                  <span className='tooltip' data-tip="Copy Note">
+                                                  <span className='sm:tooltip' data-tip="Copy Note">
                                                             <button
                                                                       className="glass bg-gradient-to-br md:bg-gradient-to-tl to-[#95c0ff] from-[#cf9aff] text-white py-3 px-4 rounded-bl-xl uppercase font-semibold -mt-1 focus:outline-none focus:shadow-outline"
                                                                       onClick={handleCopyNote}>
                                                                       <FiClipboard />
                                                             </button>
                                                   </span>
-                                                  <span className='tooltip' data-tip="Clear Note">
+                                                  <span className='sm:tooltip' data-tip="Clear Note">
                                                             <button
                                                                       className="glass bg-gradient-to-tl md:bg-gradient-to-br from-[#cf9aff] to-[#95c0ff] text-white py-3 px-4 rounded-none uppercase font-semibold -mt-1 focus:outline-none focus:shadow-outline"
                                                                       onClick={handleClearNote}>
                                                                       <RxReset />
                                                             </button>
                                                   </span>
-                                                  <span className='tooltip' data-tip="Download Note">
+                                                  <span className='sm:tooltip' data-tip="Download Note">
                                                             <button
                                                                       className="glass bg-gradient-to-br md:bg-gradient-to-tl to-[#95c0ff] from-[#cf9aff] text-white py-3 px-4 rounded-none uppercase font-semibold -mt-1 focus:outline-none focus:shadow-outline"
                                                                       onClick={handleDownloadNote}
@@ -150,7 +154,7 @@ export default function Notes() {
                                                                       <FiDownload />
                                                             </button>
                                                   </span>
-                                                  <span className='tooltip' data-tip="Share Note">
+                                                  <span className='sm:tooltip' data-tip="Share Note">
                                                             <button
                                                                       className="glass bg-gradient-to-tl md:bg-gradient-to-br to-[#95c0ff] from-[#cf9aff] text-white py-3 px-4 rounded-br-xl uppercase font-semibold -mt-1 focus:outline-none focus:shadow-outline"
                                                                       onClick={handleShareNote}>
