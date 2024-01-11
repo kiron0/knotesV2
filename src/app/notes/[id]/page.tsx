@@ -63,7 +63,7 @@ export default async function SingleNote({ params, searchParams }: Props) {
                                                   <div className="name-title absolute -top-4 ml-3 bg-base-100 border rounded-lg p-1">
                                                             <h3 className="text-xs font-poppins select-none">Description</h3>
                                                   </div>
-                                                  <p className="focus:outline-none pl-4 pt-2 w-full bg-transparent mt-3 h-[25rem] select-none">
+                                                  <p className="focus:outline-none pt-2 w-full bg-transparent mt-3 h-[25rem] select-none overflow-y-auto mb-4 px-4">
                                                             {note?.description}
                                                   </p>
                                         </div>

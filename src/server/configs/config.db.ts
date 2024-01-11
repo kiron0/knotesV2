@@ -1,8 +1,9 @@
+import { MONGO_URL } from "@/utils/config";
 import colors from "colors";
 import mongoose from "mongoose";
 
 export function connect() {
-          mongoose.connect(process.env.MONGO_URL!, {
+          mongoose.connect(MONGO_URL!, {
                     tls: true,
                     ssl: true,
           }).then(() => {
