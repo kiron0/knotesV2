@@ -14,9 +14,7 @@ async function getNoteById(id: string) {
           try {
                     if (!id) return null;
 
-                    const result = await fetch(`${BASE_URL}/notes/${id}`, {
-                              cache: 'no-store',
-                    })
+                    const result = await fetch(`${BASE_URL}/notes/${id}`)
 
                     const data = await result.json();
 

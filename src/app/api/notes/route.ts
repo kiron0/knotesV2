@@ -1,6 +1,7 @@
 import { connect } from "@/server/configs/config.db";
 import { Note } from "@/server/models/note.model";
 import { SendResponse } from "@/server/utils/SendResponse";
+import { AUTH_KEY } from "@/utils/config";
 import httpStatus from "http-status";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,6 +9,24 @@ export async function GET(req: NextRequest, res: NextResponse) {
           await connect();
 
           const params = new URL(req.url);
+          const key = params.searchParams.get('authKey') || "";
+
+          if (!key) {
+                    return SendResponse({
+                              statusCode: httpStatus.BAD_REQUEST,
+                              success: false,
+                              message: "Key is required",
+                    });
+          }
+
+          if (key !== AUTH_KEY) {
+                    return SendResponse({
+                              statusCode: httpStatus.UNAUTHORIZED,
+                              success: false,
+                              message: "Invalid key",
+                    });
+          }
+
           const page = Number(params.searchParams.get('page')) || 1;
           const limit = Number(params.searchParams.get('limit')) || 10;
           const skip = (page - 1) * limit;

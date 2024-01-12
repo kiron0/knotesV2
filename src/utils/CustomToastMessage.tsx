@@ -13,7 +13,7 @@ export default function CustomToastMessage({ title, subtitle }: ToastProps) {
                     <div className={`animate-leave shadow-xl rounded-lg border pointer-events-auto w-full flex ring-1 ring-black ring-opacity-5`}
                               style={{ backgroundColor: '#fff', padding: '0.75rem 1rem', width: '20rem' }}
                     >
-                              <div className="flex-1 w-0 p-4">
+                              <div className="flex-1 w-0">
                                         <div className="flex items-start">
                                                   <div className="flex-shrink-0 pt-0.5">
                                                             <Image

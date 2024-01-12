@@ -29,7 +29,7 @@ export default function CopyNote(noteProps: any) {
 
   return (
     <button
-      className="glass bg-gradient-to-br md:bg-gradient-to-tl to-[#95c0ff] from-[#cf9aff] text-white py-3 px-4 rounded-bl-xl uppercase font-semibold -mt-1 focus:outline-none focus:shadow-outline"
+      className="border-r py-2 px-3 font-semibold"
       onClick={handleCopyNote}
     >
       <FiClipboard />
