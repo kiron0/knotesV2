@@ -41,7 +41,9 @@ export default async function SingleNote({ params, searchParams }: Props) {
 
           return (
                     <div className="lg:container px-3 mx-auto py-8">
-                              <Link href='/' className="text-2xl md:text-4xl lg:text-5xl select-none font-bold mb-4 text-center flex md:justify-center items-center gap-1"><Image src={LogoImg} className='w-10 md:w-12' alt="" />KNotes</Link>
+                              <div className="text-2xl md:text-4xl lg:text-5xl select-none font-bold mb-4 text-center flex md:justify-center items-center gap-1">
+                                        <Link href='/' className="flex items-center gap-1"><Image src={LogoImg} className='w-10 md:w-12' alt="" />KNotes</Link>
+                              </div>
 
                               <div className='flex justify-center items-center pt-5'>
                                         <p className="text-xs md:text-sm glass uppercase cursor-default no-animation font-semibold bg-gradient-to-bl md:bg-gradient-to-tl from-[#cf9aff] to-[#95c0ff] text-white py-3 px-4 rounded-xl focus:outline-none focus:shadow-outline text-center">
@@ -55,7 +57,7 @@ export default async function SingleNote({ params, searchParams }: Props) {
                                                   <div className="name-title absolute -top-4 ml-3 bg-base-100 border rounded-lg p-1">
                                                             <h3 className="text-xs font-poppins select-none">Title</h3>
                                                   </div>
-                                                  <p className="focus:outline-none pl-4 pt-2 w-full bg-transparent mt-3 h-[3rem] select-none">
+                                                  <p className="focus:outline-none pl-4 pt-2 w-full bg-transparent mt-3 h-[3rem] select-none overflow-y-auto mb-4 md:mb-0 px-4">
                                                             {note?.title}
                                                   </p>
                                         </div>

@@ -27,6 +27,17 @@ export default function Notes() {
 
           const handleNoteChange = (title: string, description: string) => {
                     const updatedNote = { title, description };
+
+                    if (title.length > 50) {
+                              toast.custom(() =>
+                                        <CustomToastMessage
+                                                  title="Warning"
+                                                  subtitle="Title should be less than 50 characters"
+                                        />
+                              )
+                              return;
+                    }
+
                     setNote(updatedNote);
 
                     typeof window !== "undefined" && window.localStorage.setItem('kNotes', JSON.stringify(updatedNote));
@@ -146,7 +157,9 @@ export default function Notes() {
 
           return (
                     <div className="lg:container px-3 mx-auto py-8">
-                              <Link href='/' className="text-2xl md:text-4xl lg:text-5xl select-none font-bold mb-4 text-center flex md:justify-center items-center gap-1"><Image src={LogoImg} className='w-10 md:w-12' alt="" />KNotes</Link>
+                              <div className="text-2xl md:text-4xl lg:text-5xl select-none font-bold mb-4 text-center flex md:justify-center items-center gap-1">
+                                        <Link href='/' className="flex items-center gap-1"><Image src={LogoImg} className='w-10 md:w-12' alt="" />KNotes</Link>
+                              </div>
                               <div className="mb-4">
                                         <div className="name border rounded-xl relative mt-10">
                                                   <div className="name-title absolute -top-4 ml-3 bg-base-100 border rounded-lg p-1">

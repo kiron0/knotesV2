@@ -10,10 +10,16 @@ const noteSchema = new Schema<TNote>({
                     required: [true, 'Description is required'],
                     type: Schema.Types.String,
           },
-          wordsCount: {
+          titleWordsCount: {
                     type: Schema.Types.Number,
           },
-          charactersCount: {
+          titleCharactersCount: {
+                    type: Schema.Types.Number,
+          },
+          desWordsCount: {
+                    type: Schema.Types.Number,
+          },
+          desCharactersCount: {
                     type: Schema.Types.Number,
           },
 },

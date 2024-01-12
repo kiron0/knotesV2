@@ -55,15 +55,21 @@ export async function POST(req: NextRequest, res: NextResponse) {
                                         },
                               });
                     } else {
-                              const wordsCount = description.split(" ").length;
-                              const charactersCount = description.length;
+                              const titleWordsCount = title.split(" ").length;
+                              const titleCharactersCount = title.length;
+                              const desWordsCount = description.split(" ").length;
+                              const desCharactersCount = description.length;
 
-                              const note = await Note.create({
+                              const finalData = {
                                         title,
                                         description,
-                                        wordsCount,
-                                        charactersCount,
-                              });
+                                        titleWordsCount,
+                                        titleCharactersCount,
+                                        desWordsCount,
+                                        desCharactersCount,
+                              };
+
+                              const note = await Note.create(finalData);
 
 
                               return SendResponse({
