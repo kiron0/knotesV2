@@ -33,7 +33,7 @@ export default function Notes() {
 
           const [note, setNote] = useState<NoteType>(kNotes);
 
-          const handleNoteChange = (title, description): NoteType => {
+          const handleNoteChange = (title: string, description: string) => {
                     const updatedNote = { title, description };
 
                     if (title.length > 50) {
