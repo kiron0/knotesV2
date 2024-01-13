@@ -6,7 +6,7 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <div className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <Image src={Logo} alt="Logo" />
+        <Image src={Logo} draggable={false} alt="Logo" className="select-none" />
         <h1 className="text-2xl font-bold">
           Welcome to <Link href="/notes">KNotes!</Link>
         </h1>

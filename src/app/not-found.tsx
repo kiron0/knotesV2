@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function NotFound() {
           return (
                     <div className="flex flex-col items-center justify-center h-screen">
-                              <Image src={NotFoundImg} alt="404" className='w-48' />
+                              <Image src={NotFoundImg} draggable={false} alt="404" className='w-48 select-none' />
                               <h1 className="text-2xl font-bold text-center px-5 md:px-0">
                                         The page you are looking for does not exist
                               </h1>

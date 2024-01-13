@@ -2,7 +2,9 @@
 
 import LogoImg from "@/assets/notes.png";
 import CustomToastMessage from "@/utils/CustomToastMessage";
-import { NotesApi } from "@/utils/notes";
+import Editor from "@/utils/Editor";
+import { NotesApi } from "@/utils/notesApi";
+import { convert } from 'html-to-text';
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,15 +20,20 @@ const metadata: Metadata = {
           description: 'A simple note sharing app, where you can share notes with others.',
 }
 
+type NoteType = {
+          title: string
+          description: string
+}
+
 export default function Notes() {
           const kNotes = typeof window !== "undefined" ? (window.localStorage.getItem('kNotes') ? JSON.parse(window.localStorage.getItem('kNotes') as string) : {
                     title: '',
-                    description: '',
+                    description: '<p><br></p>',
           }) : false;
 
-          const [note, setNote] = useState(kNotes);
+          const [note, setNote] = useState<NoteType>(kNotes);
 
-          const handleNoteChange = (title: string, description: string) => {
+          const handleNoteChange = (title, description): NoteType => {
                     const updatedNote = { title, description };
 
                     if (title.length > 50) {
@@ -45,7 +52,7 @@ export default function Notes() {
           };
 
           const handleCopyNote = () => {
-                    if (!note.title && !note.description) {
+                    if (!note.title && note.description === '<p><br></p>') {
                               toast.custom(() =>
                                         <CustomToastMessage
                                                   title="Warning"
@@ -53,20 +60,26 @@ export default function Notes() {
                                         />
                               )
                     } else {
-                              navigator.clipboard.writeText(`${note.title}\n\n\n${note.description}`)
-                                        .then(() => {
-                                                  toast.custom(() =>
-                                                            <CustomToastMessage
-                                                                      title="Success"
-                                                                      subtitle="Note copied to clipboard"
-                                                            />
-                                                  )
-                                        })
+                              const plainTextDescription: string = convert(note.description, {
+                                        wordwrap: 130,
+                                        preserveNewlines: true,
+                              });
+
+                              const fileContent: string = `${note.title}\n\n${plainTextDescription}`;
+
+                              navigator.clipboard.writeText(fileContent).then(() => {
+                                        toast.custom(() =>
+                                                  <CustomToastMessage
+                                                            title="Success"
+                                                            subtitle="Note copied to clipboard"
+                                                  />
+                                        )
+                              })
                     }
           }
 
           const handleClearNote = () => {
-                    if (!note.title && !note.description) {
+                    if (!note.title && note.description === '<p><br></p>') {
                               toast.custom(() =>
                                         <CustomToastMessage
                                                   title="Warning"
@@ -75,15 +88,22 @@ export default function Notes() {
                               )
                               return;
                     }
-                    const updatedNote = { title: '', description: '' };
+                    const updatedNote = { title: '', description: '<p><br></p>' };
                     setNote(updatedNote);
                     typeof window !== "undefined" && window.localStorage.removeItem('kNotes');
           }
 
           const handleDownloadNote = () => {
-                    if (note.title || note.description) {
-                              const element = document.createElement('a');
-                              const file = new Blob([`${note.title}\n\n\n${note.description}`], { type: 'text/plain;charset=utf-8' });
+                    if (note.title && note.description !== '<p><br></p>') {
+                              const element: HTMLAnchorElement = document.createElement('a');
+
+                              const plainTextDescription: string = convert(note.description, {
+                                        wordwrap: 130,
+                                        preserveNewlines: true,
+                              });
+
+                              const fileContent: string = `${note.title}\n\n${plainTextDescription}`;
+                              const file: Blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
                               element.href = URL.createObjectURL(file);
                               element.download = `${note.title.slice(0, 15)}.txt`;
                               document.body.appendChild(element);
@@ -95,11 +115,12 @@ export default function Notes() {
                                                   subtitle="Nothing to download"
                                         />
                               )
+                              return;
                     }
           }
 
           const handleShareNote = () => {
-                    if (!note.description) {
+                    if (!note.title && note.description === '<p><br></p>') {
                               toast.custom(() =>
                                         <CustomToastMessage
                                                   title="Warning"
@@ -133,6 +154,9 @@ export default function Notes() {
                                                                       subtitle="Shareable link copied to clipboard"
                                                             />
                                                   )
+                                                  const updatedNote = { title: '', description: '<p><br></p>' };
+                                                  setNote(updatedNote);
+                                                  typeof window !== "undefined" && window.localStorage.removeItem('kNotes');
                                         }).catch(() => {
                                                   toast.custom(() =>
                                                             <CustomToastMessage
@@ -141,13 +165,6 @@ export default function Notes() {
                                                             />
                                                   )
                                         });
-
-                                        setNote({
-                                                  title: '',
-                                                  description: '',
-                                        });
-
-                                        typeof window !== "undefined" && window.localStorage.removeItem('kNotes');
                               }
                     })
           }
@@ -162,11 +179,11 @@ export default function Notes() {
                     <div className="relative h-screen">
                               <div className="lg:container px-3 mx-auto py-8">
                                         <div className="text-2xl md:text-4xl lg:text-5xl select-none font-bold mb-4 text-center flex md:justify-center items-center gap-1">
-                                                  <Link href='/' className="flex items-center gap-1"><Image src={LogoImg} className='w-10 md:w-12' alt="" />KNotes</Link>
+                                                  <Link href='/' className="flex items-center gap-1"><Image src={LogoImg} draggable={false} className='w-10 md:w-12 select-none' alt="" />KNotes</Link>
                                         </div>
                                         <div className="mb-4">
                                                   <div className="name border rounded-xl relative mt-10">
-                                                            <div className="name-title absolute -top-4 ml-3 bg-base-100 border rounded-lg p-1">
+                                                            <div className="select-none absolute -top-4 ml-3 bg-base-100 border rounded-lg p-1">
                                                                       <h3 className="text-xs font-poppins">Type title</h3>
                                                             </div>
                                                             <input
@@ -177,18 +194,11 @@ export default function Notes() {
                                                                       onChange={(e) => handleNoteChange(e.target.value, note.description)}
                                                             />
                                                   </div>
-                                                  <div className="name border rounded-xl relative mt-8">
-                                                            <div className="name-title absolute -top-4 ml-3 bg-base-100 border rounded-lg p-1">
+                                                  <div className="name relative mt-8">
+                                                            <div className="select-none absolute -top-4 ml-3 bg-base-100 border rounded-lg p-1">
                                                                       <h3 className="text-xs font-poppins">Type description</h3>
                                                             </div>
-                                                            <textarea
-                                                                      typeof='text'
-                                                                      className="textarea focus:outline-none border-none w-full bg-transparent mt-3 resize-none h-[25rem]"
-                                                                      value={note.description}
-                                                                      placeholder="Type note description here..."
-                                                                      onChange={(e) => handleNoteChange(note.title, e.target.value)}
-                                                                      aria-labelledby='description'
-                                                            />
+                                                            <Editor value={note.description} onChange={(value) => handleNoteChange(note.title, value)} />
                                                   </div>
                                         </div>
                               </div>

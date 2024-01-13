@@ -74,21 +74,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
                                         },
                               });
                     } else {
-                              const titleWordsCount = title.split(" ").length;
-                              const titleCharactersCount = title.length;
-                              const desWordsCount = description.split(" ").length;
-                              const desCharactersCount = description.length;
-
-                              const finalData = {
+                              const note = await Note.create({
                                         title,
-                                        description,
-                                        titleWordsCount,
-                                        titleCharactersCount,
-                                        desWordsCount,
-                                        desCharactersCount,
-                              };
-
-                              const note = await Note.create(finalData);
+                                        description
+                              });
 
 
                               return SendResponse({

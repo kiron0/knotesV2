@@ -1,7 +1,7 @@
 import LogoImg from '@/assets/notes.png';
 import CopyNote from '@/utils/CopyNote';
 import DownloadNote from '@/utils/DownloadNote';
-import { NotesApi } from "@/utils/notes";
+import { NotesApi } from "@/utils/notesApi";
 import type { Metadata, ResolvingMetadata } from 'next';
 import Image from "next/image";
 import Link from "next/link";
@@ -45,7 +45,7 @@ export default async function SingleNote({ params, searchParams }: Props) {
                     <div className="relative h-screen">
                               <div className="lg:container px-3 mx-auto py-8">
                                         <div className="text-2xl md:text-4xl lg:text-5xl select-none font-bold mb-4 text-center flex md:justify-center items-center gap-1">
-                                                  <Link href='/' className="flex items-center gap-1"><Image src={LogoImg} className='w-10 md:w-12' alt="" />KNotes</Link>
+                                                  <p className="flex items-center gap-1"><Image src={LogoImg} draggable={false} className='w-10 md:w-12 select-none' alt="" />KNotes</p>
                                         </div>
 
                                         <div className="mb-4">
@@ -61,9 +61,7 @@ export default async function SingleNote({ params, searchParams }: Props) {
                                                             <div className="name-title absolute -top-4 ml-3 bg-base-100 border rounded-lg p-1">
                                                                       <h3 className="text-xs font-poppins select-none">Description</h3>
                                                             </div>
-                                                            <p className="focus:outline-none pt-2 w-full bg-transparent mt-3 h-[20rem] select-none overflow-y-auto mb-4 px-4">
-                                                                      {note?.description}
-                                                            </p>
+                                                            <div className="focus:outline-none pt-2 w-full bg-transparent mt-3 h-[20rem] select-none overflow-y-auto mb-4 px-4" dangerouslySetInnerHTML={{ __html: note?.description || '<p><br></p>' }}></div>
                                                   </div>
                                         </div>
 

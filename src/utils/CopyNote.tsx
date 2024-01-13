@@ -1,6 +1,7 @@
 "use client"
 
 import CustomToastMessage from "@/utils/CustomToastMessage";
+import { convert } from 'html-to-text';
 import { toast } from "react-hot-toast";
 import { FiClipboard } from "react-icons/fi";
 
@@ -9,19 +10,27 @@ export default function CopyNote(noteProps: any) {
   const { note } = noteProps;
 
   const handleCopyNote = () => {
-    if (note.title || note.description) {
-      navigator.clipboard.writeText(`${note.title}\n\n\n${note.description}`);
-      toast.custom(() => (
-        <CustomToastMessage
-          title="Success"
-          subtitle="Note copied to clipboard!"
-        />
-      ));
+    if (note.title && note.description !== '<p><br></p>') {
+      const plainTextDescription: string = convert(note.description, {
+        wordwrap: 130,
+        preserveNewlines: true,
+      });
+
+      const fileContent: string = `${note.title}\n\n${plainTextDescription}`;
+
+      navigator.clipboard.writeText(fileContent).then(() => {
+        toast.custom(() =>
+          <CustomToastMessage
+            title="Success"
+            subtitle="Note copied to clipboard"
+          />
+        )
+      })
     } else {
       toast.custom(() => (
         <CustomToastMessage
           title="Warning"
-          subtitle="Note is empty!"
+          subtitle="Nothing to copy"
         />
       ));
     }
