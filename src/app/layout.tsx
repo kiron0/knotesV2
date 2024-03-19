@@ -1,6 +1,7 @@
 import getBaseURL from '@/utils/baseUrl'
 import type { Metadata } from 'next'
 import { Nunito } from 'next/font/google'
+import NextTopLoader from "nextjs-toploader"
 import { ReactNode } from 'react'
 import { Toaster } from 'react-hot-toast'
 import './globals.css'
@@ -35,7 +36,12 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="light">
       <body className={nunito.className}>
-        {children}
+        <main>
+          {children}
+        </main>
+        <NextTopLoader
+          color="#000"
+        />
         <Toaster />
       </body>
     </html>
