@@ -14,7 +14,7 @@ export default function CustomToastMessage({ title, subtitle }: ToastProps) {
                               style={{ backgroundColor: '#fff', padding: '0.75rem 1rem', width: '20rem' }}
                     >
                               <div className="flex-1 w-0">
-                                        <div className="flex items-start">
+                                        <div className="flex items-center justify-center gap-3">
                                                   <div className="flex-shrink-0 pt-0.5">
                                                             <Image
                                                                       className="h-10 w-10"

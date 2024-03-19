@@ -1,10 +1,9 @@
 "use client"
 
-import CustomToastMessage from "@/utils/CustomToastMessage";
+import CustomToastMessage from '@/components/custom-toast-message';
 import { convert } from 'html-to-text';
 import { toast } from "react-hot-toast";
 import { FiDownload } from "react-icons/fi";
-
 
 export default function DownloadNote(noteProps: any) {
           const { note } = noteProps;

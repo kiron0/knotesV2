@@ -1,6 +1,6 @@
 "use client"
 
-import CustomToastMessage from "@/utils/CustomToastMessage";
+import CustomToastMessage from "@/components/custom-toast-message";
 import { convert } from 'html-to-text';
 import { toast } from "react-hot-toast";
 import { FiClipboard } from "react-icons/fi";

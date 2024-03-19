@@ -1,4 +1,4 @@
-import { BASE_URL } from "./config";
+import { BASE_URL } from "@/utils/config";
 
 async function getAllNote() {
           const result = await fetch(`${BASE_URL}/notes`, {

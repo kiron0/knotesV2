@@ -1,31 +1,29 @@
 import LogoImg from '@/assets/notes.png';
-import CopyNote from '@/utils/CopyNote';
-import DownloadNote from '@/utils/DownloadNote';
+import CopyNote from '@/components/copy-note';
+import DownloadNote from '@/components/download-note';
 import { NotesApi } from "@/utils/notesApi";
-import type { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata } from 'next';
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { GoHeartFill } from "react-icons/go";
 import { RiHomeHeartLine } from 'react-icons/ri';
 
-type Props = {
+type NoteProps = {
           params: { id: string }
-          searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export async function generateMetadata(
-          { params, searchParams }: Props,
-          parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: NoteProps): Promise<Metadata> {
           const { id } = params
 
-          const { data } = await NotesApi.getNoteById(id)
+          const { data } = await NotesApi.getNoteById(id);
 
           const note = data;
 
           if (!note) {
-                    return notFound()
+                    return {
+                              title: 'Note not found - KNotes',
+                              description: 'The note you are looking for does not exist.',
+                    }
           }
 
           return {
@@ -34,7 +32,7 @@ export async function generateMetadata(
           }
 }
 
-export default async function SingleNote({ params, searchParams }: Props) {
+export default async function SingleNote({ params }: NoteProps) {
           const { id } = params;
 
           const { data } = await NotesApi.getNoteById(id);
