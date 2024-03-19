@@ -1,13 +1,28 @@
 import NotFoundImg from '@/assets/404.png'
+import getBaseURL from '@/utils/baseUrl'
 import type { Metadata } from 'next'
 import Image from "next/image"
 import Link from 'next/link'
 
-export const metadata: Metadata = {
-          title: 'Not found - KNotes',
-          description: 'Uh oh! The page you are looking for does not exist. Unfortunately, we cannot find the page you are looking for.',
-}
+export async function generateMetadata(): Promise<Metadata> {
+          const BASE_URL = await getBaseURL();
 
+          return {
+                    metadataBase: new URL(BASE_URL),
+                    title: '404 Not found | KNotes - a simple note sharing app',
+                    description: 'Uh oh! The page you are looking for does not exist. Unfortunately, we cannot find the page you are looking for.',
+                    openGraph: {
+                              images: [
+                                        {
+                                                  url: new URL('/not-found.webp', BASE_URL),
+                                                  width: 800,
+                                                  height: 600,
+                                                  alt: "KNotes - a simple note sharing app",
+                                        },
+                              ],
+                    },
+          }
+}
 
 export default function NotFound() {
           return (
