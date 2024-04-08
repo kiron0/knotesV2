@@ -26,7 +26,7 @@ export default function SingleNote({ note }: { note: TNote }) {
                                                             <h3 className="text-xs select-none font-semibold text-primary flex items-center gap-1">
                                                                       Title <PiArrowElbowRightDownLight className='text-xs' />
                                                             </h3>
-                                                            <p className="pt-2 w-full select-none mb-4 md:mb-0">
+                                                            <p className="pt-2 w-full select-none mb-4 md:mb-0 font-solaimanLipi">
                                                                       {note?.title}
                                                             </p>
                                                   </div>
@@ -34,25 +34,25 @@ export default function SingleNote({ note }: { note: TNote }) {
                                                             <h3 className="text-xs select-none font-semibold text-primary flex items-center gap-1">
                                                                       Description <PiArrowElbowRightDownLight className='text-xs' />
                                                             </h3>
-                                                            <div className="pt-2 w-full h-fit select-none overflow-y-auto mb-4" dangerouslySetInnerHTML={{ __html: note?.description || '<p><br></p>' }}></div>
+                                                            <div className="pt-2 w-full h-fit select-none overflow-y-auto mb-4 font-solaimanLipi" dangerouslySetInnerHTML={{ __html: note?.description || '<p><br></p>' }}></div>
                                                   </div>
                                         </div>
-                                        <div className="flex justify-between items-center pt-5">
-                                                  <p className="text-xs md:text-sm glass uppercase cursor-default no-animation font-semibold py-3 px-4 rounded-xl focus:outline-none focus:shadow-outline text-center select-none flex items-center gap-1">
+                                        <div className="flex flex-col sm:flex-row justify-between items-center gap-5 pt-5">
+                                                  <p className="text-xs glass uppercase cursor-default no-animation font-semibold py-3 px-4 rounded-xl focus:outline-none focus:shadow-outline text-center select-none flex items-center gap-1">
                                                             Thanks for using <GoHeartFill /> <span className='font-bold'>KNotes!</span>
                                                   </p>
-                                                  <div className="flex justify-center items-center gap-3 glass px-2 py-1 rounded-xl">
+                                                  <div className="flex justify-center items-center glass rounded-xl">
                                                             <span className='sm:tooltip' data-tip="Copy Note">
                                                                       <CopyNote note={note} />
                                                             </span>
                                                             <span className='sm:tooltip' data-tip="Home">
                                                                       <Link href='/'>
                                                                                 <button className="border-r py-2 px-3 font-semibold">
-                                                                                          <RiHomeHeartLine size={20} />
+                                                                                          <RiHomeHeartLine size={18} />
                                                                                 </button>
                                                                       </Link>
                                                             </span>
-                                                            <span className='sm:tooltip' data-tip="Download Note">
+                                                            <span className='sm:tooltip sm:tooltip-left' data-tip="Download">
                                                                       <DownloadNote note={note} />
                                                             </span>
                                                   </div>
