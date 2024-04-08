@@ -1,6 +1,8 @@
-import { BASE_URL } from "@/utils/config";
+import getBaseURL from "@/utils/baseUrl";
 
 async function getAllNote() {
+          const BASE_URL = await getBaseURL() + '/api';
+
           const result = await fetch(`${BASE_URL}/notes`, {
                     cache: 'no-store',
           })
@@ -11,6 +13,8 @@ async function getAllNote() {
 }
 
 async function getNoteById(id: string) {
+          const BASE_URL = await getBaseURL() + '/api';
+
           try {
                     if (!id) return null;
 
@@ -28,10 +32,9 @@ async function getNoteById(id: string) {
           }
 }
 
-async function createNewNote(data: {
-          title: string,
-          description: string,
-}) {
+async function createNewNote(data: { title: string, description: string }) {
+          const BASE_URL = await getBaseURL() + '/api';
+
           const result = await fetch(`${BASE_URL}/notes`, {
                     method: 'POST',
                     headers: {

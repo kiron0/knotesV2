@@ -4,75 +4,61 @@ import { SendResponse } from "@/server/utils/SendResponse";
 import httpStatus from "http-status";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, res: NextResponse) {
-          await connect();
+connect();
 
+export async function GET(req: NextRequest) {
           const params = new URL(req.url);
           const id = params.pathname.split('/').pop();
-
-          if (id && id.length !== 24) {
-                    return SendResponse({
-                              statusCode: httpStatus.BAD_REQUEST,
-                              success: false,
-                              message: "Invalid note id",
-                    });
-          }
-
-          const note = await Note.findById(id);
-
-          if (!note) {
-                    return SendResponse({
-                              statusCode: httpStatus.NOT_FOUND,
-                              success: false,
-                              message: "Note not found",
-                    });
-          }
-
-          return SendResponse({
-                    statusCode: httpStatus.OK,
-                    success: true,
-                    message: "Note fetched successfully",
-                    data: note,
-          });
-}
-
-export async function PATCH(req: NextRequest, res: NextResponse) {
-          await connect();
-
-          const params = new URL(req.url);
-          const id = params.pathname.split('/').pop();
-
-          const { title, description } = await req.json();
-
-          if (!title || !description) {
-                    return SendResponse({
-                              statusCode: httpStatus.BAD_REQUEST,
-                              success: false,
-                              message: "Title and description are required",
-                    });
-          }
-
-          const wordsCount = description.split(" ").length;
-          const charactersCount = description.length;
-
-          const existingNote = await Note.findById(id);
-
-          if (!existingNote) {
-                    return SendResponse({
-                              statusCode: httpStatus.NOT_FOUND,
-                              success: false,
-                              message: "Note not found",
-                    });
-          }
-
-          await Note.updateOne({ _id: existingNote._id, }, {
-                    title,
-                    description,
-                    wordsCount,
-                    charactersCount,
-          });
 
           try {
+                    if (id && id.length !== 24) {
+                              throw new Error("Invalid note id");
+                    }
+
+                    const note = await Note.findById(id);
+
+                    if (!note) {
+                              throw new Error("Note not found");
+                    }
+
+                    return SendResponse({
+                              statusCode: httpStatus.OK,
+                              success: true,
+                              message: "Note fetched successfully",
+                              data: note,
+                    });
+          } catch (error) {
+                    return NextResponse.json(error);
+          }
+}
+
+export async function PATCH(req: NextRequest) {
+          const params = new URL(req.url);
+          const id = params.pathname.split('/').pop();
+
+          try {
+                    const { title, description } = await req.json();
+
+                    if (!title || !description) {
+                              throw new Error("Title and description are required");
+                    }
+
+                    const wordsCount = description.split(" ").length;
+                    const charactersCount = description.length;
+
+                    const existingNote = await Note.findById(id);
+
+                    if (!existingNote) {
+                              throw new Error("Note not found");
+                    }
+
+                    await Note.updateOne({ _id: existingNote._id, }, {
+                              title,
+                              description,
+                              wordsCount,
+                              charactersCount,
+                    });
+
                     return SendResponse({
                               statusCode: httpStatus.OK,
                               success: true,
@@ -83,27 +69,29 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
           }
 }
 
-export async function DELETE(req: NextRequest, res: NextResponse) {
-          await connect();
-
+export async function DELETE(req: NextRequest) {
           const params = new URL(req.url);
           const id = params.pathname.split('/').pop();
 
-          const existingNote = await Note.findById(id);
+          try {
+                    if (id && id.length !== 24) {
+                              throw new Error("Invalid note id");
+                    }
 
-          if (!existingNote) {
+                    const existingNote = await Note.findById(id);
+
+                    if (!existingNote) {
+                              throw new Error("Note not found");
+                    }
+
+                    await Note.deleteOne({ _id: existingNote._id });
+
                     return SendResponse({
-                              statusCode: httpStatus.NOT_FOUND,
-                              success: false,
-                              message: "Note not found",
+                              statusCode: httpStatus.OK,
+                              success: true,
+                              message: "Note deleted successfully",
                     });
+          } catch (error) {
+                    return NextResponse.json(error);
           }
-
-          await Note.deleteOne({ _id: existingNote._id });
-
-          return SendResponse({
-                    statusCode: httpStatus.OK,
-                    success: true,
-                    message: "Note deleted successfully",
-          });
 }

@@ -5,9 +5,9 @@ import { AUTH_KEY } from "@/utils/config";
 import httpStatus from "http-status";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, res: NextResponse) {
-          await connect();
+connect();
 
+export async function GET(req: NextRequest) {
           const params = new URL(req.url);
           const key = params.searchParams.get('authKey') || "";
 
@@ -48,20 +48,14 @@ export async function GET(req: NextRequest, res: NextResponse) {
           });
 }
 
-export async function POST(req: NextRequest, res: NextResponse) {
-          await connect();
-
+export async function POST(req: NextRequest) {
           const { title, description } = await req.json();
 
-          if (!title || !description) {
-                    return SendResponse({
-                              statusCode: httpStatus.BAD_REQUEST,
-                              success: false,
-                              message: "Title and description are required",
-                    });
-          }
-
           try {
+                    if (!title || !description) {
+                              throw new Error("Title and description are required");
+                    }
+
                     const existingNote = await Note.findOne({ title, description });
 
                     if (existingNote) {
@@ -78,7 +72,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
                                         title,
                                         description
                               });
-
 
                               return SendResponse({
                                         statusCode: httpStatus.CREATED,
