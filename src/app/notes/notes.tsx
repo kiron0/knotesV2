@@ -24,11 +24,11 @@ export default function Notes() {
           const handleNoteChange = (title: string, description: string) => {
                     const updatedNote = { title, description };
 
-                    if (title.length > 60) {
+                    if (title.length > 200) {
                               toast.custom(() =>
                                         <CustomToastMessage
                                                   title="Warning"
-                                                  subtitle="Title should be less than 50 characters"
+                                                  subtitle="Title should be less than 200 characters"
                                         />
                               )
                               return;
@@ -172,7 +172,7 @@ export default function Notes() {
                                         <div className="mb-4">
                                                   <div className="name border rounded-xl relative mt-10">
                                                             <div className="select-none absolute -top-4 ml-3 bg-base-100 border rounded-lg p-1">
-                                                                      <h3 className="text-xs font-poppins">Type title</h3>
+                                                                      <h3 className="text-xs">Type title</h3>
                                                             </div>
                                                             <input
                                                                       type='text'
@@ -184,7 +184,7 @@ export default function Notes() {
                                                   </div>
                                                   <div className="name relative mt-8">
                                                             <div className="select-none absolute -top-4 ml-3 bg-base-100 border rounded-lg p-1">
-                                                                      <h3 className="text-xs font-poppins">Type description</h3>
+                                                                      <h3 className="text-xs">Type description</h3>
                                                             </div>
                                                             <Editor value={note.description} onChange={(value) => handleNoteChange(note.title, value)} />
                                                   </div>
