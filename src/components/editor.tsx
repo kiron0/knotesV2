@@ -49,6 +49,6 @@ export default function Editor({ value, onChange }: EditorProps) {
 
 function EditorSkeleton() {
           return (
-                    <div className="w-full h-[20rem] md:h-[25rem] bg-gray-200 animate-pulse border border-border rounded-md" />
+                    <div className="w-full h-[23rem] md:h-[28rem] bg-gray-200 animate-pulse border border-border rounded-2xl" />
           );
 }
