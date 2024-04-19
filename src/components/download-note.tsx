@@ -1,8 +1,7 @@
 "use client"
 
-import CustomToastMessage from '@/components/custom-toast-message';
+import { notifyInfo, notifySuccess } from '@/components/toast';
 import { convert } from 'html-to-text';
-import { toast } from "react-hot-toast";
 import { FiDownload } from "react-icons/fi";
 
 export default function DownloadNote(noteProps: any) {
@@ -24,19 +23,9 @@ export default function DownloadNote(noteProps: any) {
                               document.body.appendChild(element);
                               element.click();
 
-                              toast.custom(() => (
-                                        <CustomToastMessage
-                                                  title="Success"
-                                                  subtitle="Note downloaded!"
-                                        />
-                              ));
+                              notifySuccess('Success', 'Note downloaded');
                     } else {
-                              toast.custom(() => (
-                                        <CustomToastMessage
-                                                  title="Warning"
-                                                  subtitle="Nothing to download!"
-                                        />
-                              ));
+                              notifyInfo('Info', 'Nothing to download');
                     }
           }
 

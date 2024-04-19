@@ -3,7 +3,10 @@
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
 
-const QuillEditor = dynamic(() => import('react-quill'), { ssr: false });
+const QuillEditor = dynamic(() => import('react-quill'), {
+          ssr: false,
+          loading: () => <EditorSkeleton />,
+});
 
 interface EditorProps {
           value: string;
@@ -41,5 +44,11 @@ export default function Editor({ value, onChange }: EditorProps) {
                               placeholder="Write something amazing..."
                               className="w-full h-[20rem] md:h-[25rem] bg-transparent"
                     />
+          );
+}
+
+function EditorSkeleton() {
+          return (
+                    <div className="w-full h-[20rem] md:h-[25rem] bg-gray-200 animate-pulse border border-border rounded-md" />
           );
 }

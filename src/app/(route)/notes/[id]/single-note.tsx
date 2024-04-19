@@ -1,8 +1,8 @@
 "use client"
 
-import LogoImg from '@/assets/notes.png';
 import CopyNote from '@/components/copy-note';
 import DownloadNote from '@/components/download-note';
+import { logo } from '@/constant';
 import { TNote } from '@/types';
 import Image from "next/image";
 import Link from "next/link";
@@ -16,7 +16,7 @@ export default function SingleNote({ note }: { note: TNote }) {
                               <div className="lg:container px-3 mx-auto py-8">
                                         <div className="text-2xl md:text-4xl lg:text-5xl select-none font-bold mb-4 text-center flex md:justify-center items-center gap-1">
                                                   <p className="flex items-center gap-1">
-                                                            <Image src={LogoImg} draggable={false} className='w-10 md:w-12 select-none' alt="" />
+                                                            <Image src={logo} draggable={false} className='w-10 md:w-12 select-none' alt="" />
                                                             KNotes
                                                   </p>
                                         </div>

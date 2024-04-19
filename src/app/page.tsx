@@ -1,6 +1,6 @@
 "use client"
 
-import Logo from "@/assets/notes.png";
+import { logo, title } from "@/constant";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,7 +8,14 @@ export default function HomePage() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <div className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <Image src={Logo} draggable={false} alt="Logo" className="select-none" />
+        <Image
+          src={logo}
+          width={450}
+          height={450}
+          draggable={false}
+          alt={title}
+          className="w-40 select-none mb-3"
+        />
         <h1 className="text-2xl font-bold">
           Welcome to <Link href="/notes">KNotes!</Link>
         </h1>

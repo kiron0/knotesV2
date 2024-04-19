@@ -1,16 +1,15 @@
 'use client'
 
-import LogoImg from "@/assets/notes.png";
-import CustomToastMessage from "@/components/custom-toast-message";
 import Editor from "@/components/editor";
 import NotesButton from "@/components/notes-button";
+import { notifyError, notifyInfo, notifySuccess } from "@/components/toast";
+import { logo } from "@/constant";
 import { NotesApi } from "@/server/action/notesApi";
 import { TNote } from "@/types";
 import { convert } from 'html-to-text';
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
 export default function Notes() {
@@ -25,13 +24,7 @@ export default function Notes() {
                     const updatedNote = { title, description };
 
                     if (title.length > 200) {
-                              toast.custom(() =>
-                                        <CustomToastMessage
-                                                  title="Warning"
-                                                  subtitle="Title should be less than 200 characters"
-                                        />
-                              )
-                              return;
+                              return notifyInfo('Info', 'Title should be less than 200 characters');
                     }
 
                     setNote(updatedNote);
@@ -41,12 +34,7 @@ export default function Notes() {
 
           const handleCopyNote = () => {
                     if (!note.title && note.description === '<p><br></p>') {
-                              toast.custom(() =>
-                                        <CustomToastMessage
-                                                  title="Warning"
-                                                  subtitle="Nothing to copy"
-                                        />
-                              )
+                              return notifyInfo('Info', 'Nothing to copy');
                     } else {
                               const plainTextDescription: string = convert(note.description, {
                                         wordwrap: 130,
@@ -56,25 +44,14 @@ export default function Notes() {
                               const fileContent: string = `${note.title}\n\n${plainTextDescription}`;
 
                               navigator.clipboard.writeText(fileContent).then(() => {
-                                        toast.custom(() =>
-                                                  <CustomToastMessage
-                                                            title="Success"
-                                                            subtitle="Note copied to clipboard"
-                                                  />
-                                        )
+                                        notifySuccess('Success', 'Note copied to clipboard');
                               })
                     }
           }
 
           const handleClearNote = () => {
                     if (!note.title && note.description === '<p><br></p>') {
-                              toast.custom(() =>
-                                        <CustomToastMessage
-                                                  title="Warning"
-                                                  subtitle="Nothing to clear"
-                                        />
-                              )
-                              return;
+                              return notifyInfo('Info', 'Nothing to clear');
                     }
                     const updatedNote = { title: '', description: '<p><br></p>' };
                     setNote(updatedNote);
@@ -97,25 +74,13 @@ export default function Notes() {
                               document.body.appendChild(element);
                               element.click();
                     } else {
-                              toast.custom(() =>
-                                        <CustomToastMessage
-                                                  title="Warning"
-                                                  subtitle="Nothing to download"
-                                        />
-                              )
-                              return;
+                              notifyInfo('Info', 'Nothing to download');
                     }
           }
 
           const handleShareNote = () => {
                     if (!note.title && note.description === '<p><br></p>') {
-                              toast.custom(() =>
-                                        <CustomToastMessage
-                                                  title="Warning"
-                                                  subtitle="Nothing to share"
-                                        />
-                              )
-                              return;
+                              return notifyInfo('Info', 'Nothing to share');
                     }
 
                     Swal.fire({
@@ -136,22 +101,12 @@ export default function Notes() {
                                         const noteUrl = `${url}/${noteId}`;
 
                                         navigator.clipboard.writeText(noteUrl).then(() => {
-                                                  toast.custom(() =>
-                                                            <CustomToastMessage
-                                                                      title="Success"
-                                                                      subtitle="Shareable link copied to clipboard"
-                                                            />
-                                                  )
+                                                  notifySuccess('Success', 'Shareable link copied to clipboard');
                                                   const updatedNote = { title: '', description: '<p><br></p>' };
                                                   setNote(updatedNote);
                                                   typeof window !== "undefined" && window.localStorage.removeItem('kNotes');
                                         }).catch(() => {
-                                                  toast.custom(() =>
-                                                            <CustomToastMessage
-                                                                      title="Error"
-                                                                      subtitle="Failed to copy note to clipboard"
-                                                            />
-                                                  )
+                                                  notifyError('Error', 'Failed to copy link to clipboard');
                                         });
                               }
                     })
@@ -167,7 +122,9 @@ export default function Notes() {
                     <div className="relative h-screen">
                               <div className="lg:container px-3 mx-auto py-8">
                                         <div className="text-2xl md:text-4xl lg:text-5xl select-none font-bold mb-4 text-center flex md:justify-center items-center gap-1">
-                                                  <Link href='/' className="flex items-center gap-1"><Image src={LogoImg} draggable={false} className='w-10 md:w-12 select-none' alt="" />KNotes</Link>
+                                                  <Link href='/' className="flex items-center gap-1">
+                                                            <Image src={logo} draggable={false} className='w-10 md:w-12 select-none' alt="" />KNotes
+                                                  </Link>
                                         </div>
                                         <div className="mb-4">
                                                   <div className="name border rounded-xl relative mt-10">
