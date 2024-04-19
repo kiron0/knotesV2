@@ -1,5 +1,3 @@
-"use server"
-
 import getBaseURL from "@/utils/baseUrl";
 
 async function getAllNote() {
