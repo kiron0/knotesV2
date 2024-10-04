@@ -11,13 +11,7 @@ body {
   overflow-x: hidden !important;
 }
 
-::-webkit-scrollbar {
-  @apply w-[0.2rem] bg-[#fff] rounded-[0.6rem];
-}
-::-webkit-scrollbar-thumb {
-  @apply bg-[#21222c] rounded-[0.6rem] hover:bg-[#363536] duration-500;
-}
-
+/* Top Loader */
 #nprogress .bar {
   @apply !bg-primary;
 }
@@ -27,7 +21,22 @@ body {
 }
 
 #nprogress .peg {
-  box-shadow: 0 0 10px hsla(var(--primary)), 0 0 5px hsla(var(--primary)) !important;
+  box-shadow:
+    0 0 10px hsla(var(--primary)),
+    0 0 5px hsla(var(--primary)) !important;
+}
+
+/* Reset Scrollbar */
+::-webkit-scrollbar {
+  @apply w-[0.3rem] bg-[#fff] rounded-[0.6rem];
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-[#6d6c6c] rounded-[0.6rem] hover:bg-[#313131] duration-500;
+}
+
+/* Hide Vertical Scrollbar for "hide-scrollbar" class */
+.hide-scrollbar::-webkit-scrollbar {
+  @apply hidden;
 }
 
 .ql-container {
@@ -36,4 +45,25 @@ body {
 
 .ql-toolbar {
   @apply border rounded-2xl rounded-bl-none rounded-br-none;
+}
+
+/* React Code Editor */
+.cm-editor {
+  @apply !rounded-md !overflow-hidden !border !shadow-sm !transition-colors;
+}
+
+.cm-focused {
+  @apply !outline-none;
+}
+
+.cm-editor .cm-content .cm-line {
+  @apply !text-sm;
+}
+
+.cm-editor .cm-scroller {
+  @apply !overflow-x-auto;
+}
+
+.cm-editor .cm-content {
+  @apply !pt-4;
 }

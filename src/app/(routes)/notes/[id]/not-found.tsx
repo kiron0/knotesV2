@@ -35,14 +35,14 @@ export default function NotFound() {
         alt="404"
         className="w-48 select-none"
       />
-      <h1 className="text-2xl font-bold text-center px-5 md:px-0">
-        The page you are looking for does not exist
+      <h1 className="text-3xl font-bold text-center">
+        Note not found <br /> or maybe deleted
       </h1>
       <Link
-        href={"/"}
+        href={"/notes"}
         className="btn btn-sm bg-gradient-to-br md:bg-gradient-to-tl to-[#95c0ff] from-[#cf9aff] text-white font-semibold mt-3"
       >
-        Go to Home
+        Create Note
       </Link>
     </div>
   );

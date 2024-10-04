@@ -1,63 +1,64 @@
+import { TNote } from "@/types";
 import getBaseURL from "@/utils/baseUrl";
 
 async function getAllNote() {
-          try {
-                    const BASE_URL = await getBaseURL() + '/api';
+  try {
+    const BASE_URL = (await getBaseURL()) + "/api";
 
-                    const result = await fetch(`${BASE_URL}/notes`, {
-                              cache: 'no-store',
-                    })
+    const result = await fetch(`${BASE_URL}/notes`, {
+      cache: "no-store",
+    });
 
-                    const data = await result.json();
+    const data = await result.json();
 
-                    return data;
-          } catch (error) {
-                    console.log(error);
-          }
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function getNoteById(id: string) {
-          const BASE_URL = await getBaseURL() + '/api';
+  const BASE_URL = (await getBaseURL()) + "/api";
 
-          try {
-                    if (!id) return null;
+  try {
+    if (!id) return null;
 
-                    const result = await fetch(`${BASE_URL}/notes/${id}`, {
-                              next: {
-                                        revalidate: 10,
-                              }
-                    })
+    const result = await fetch(`${BASE_URL}/notes/${id}`, {
+      next: {
+        revalidate: 10,
+      },
+    });
 
-                    const data = await result.json();
+    const data = await result.json();
 
-                    return data;
-          } catch (error) {
-                    console.log(error);
-          }
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-async function createNewNote(data: { title: string, description: string }) {
-          try {
-                    const BASE_URL = await getBaseURL() + '/api';
+async function createNewNote(data: TNote) {
+  try {
+    const BASE_URL = (await getBaseURL()) + "/api";
 
-                    const result = await fetch(`${BASE_URL}/notes`, {
-                              method: 'POST',
-                              headers: {
-                                        'Content-Type': 'application/json',
-                              },
-                              body: JSON.stringify(data),
-                    })
+    const result = await fetch(`${BASE_URL}/notes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
-                    const newNote = await result.json();
+    const newNote = await result.json();
 
-                    return newNote;
-          } catch (error) {
-                    console.log(error);
-          }
+    return newNote;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export const NotesApi = {
-          getAllNote,
-          getNoteById,
-          createNewNote,
-}
+  getAllNote,
+  getNoteById,
+  createNewNote,
+};

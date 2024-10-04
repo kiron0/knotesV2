@@ -1,5 +1,3 @@
-"use client";
-
 import { logo, shortTitle } from "@/constant";
 import Image from "next/image";
 import { PulseLoader } from "react-spinners";

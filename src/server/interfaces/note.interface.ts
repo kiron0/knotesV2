@@ -1,4 +1,5 @@
 export type TNote = {
-          title: string;
-          description: string;
+  type: "text" | "json";
+  title: string;
+  description: string;
 };
